@@ -1,0 +1,43 @@
+# ITKA2050 Harjoitustyön runko
+
+Tämä on pieni tiedostonjako-ohjelma, jossa _kaikki_ on pielessä. Harjoituksen
+tarkoituksena on etsiä ja paikata siitä mahdollisimman monta virhettä.
+
+# Kääntäminen & Käynnistäminen
+
+Ohjelma on Python 3 ohjelma, eli asenna se ensin. Ks.
+https://www.python.org/downloads/.
+
+Pythonin mukana tulee Pythonin paketinhallintaohjelma, eli pip (jos ei tullut,
+saat sen osoitteesta https://pip.pypa.io/en/stable/installing/). Pip:n avulla 
+voit asentaa muut tarvittavat ohjelmat komennolla
+
+   $ pip3 install -r requirements.txt
+
+Tämän jälkeen voit suorittaa ohjelman komennolla 
+
+   $ FLASK_APP=Turd.py flask run
+
+## Docker
+
+Toinen vaihtoehto on käyttää docker 'virtuaalikonetta'. Tällä tavalla itse ei
+tarvitse asentaa muita ohjelmia kuin docker ja samalla oppii käyttämään tätäkin
+vallan yleisesti käytettyä työkalua.
+
+Dockerin avulla ohjelmaa käytetään näin:
+
+1) Luo docker kuva kirjoittamalla
+
+   $ docker build . -t turd
+
+2) Aja ohjelma kirjoittamalla
+
+   $ docker run -it -p5000:5000 turd
+
+3) Osoita selain osoitteseen http://localhost:5000/login
+
+# Vinkki
+
+Jos et tiedä mistä etsiä virhettä voit pääsääntöisesti vain osoittaa sormella
+satunnaista kohtaa koodissa ja kohtuullisella todennäköisyydellä sormen alle
+jääneessä koodissa on jotain pielessä.
