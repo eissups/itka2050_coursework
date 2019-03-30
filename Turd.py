@@ -1,7 +1,5 @@
 import os
-
 from flask import Flask, send_file, request, redirect, url_for, make_response
-
 import yaml
 import queue
 import subprocess
@@ -17,10 +15,11 @@ with open("app.config.yaml") as stream:
 
 app = Flask(__name__)
 
-bad_file_log = set()
-suspicious_file_log = set()
-shared_files = {}
-checker_queue = queue.LifoQueue(1000)
+# Some global variables
+bad_file_log = set()            # Set of known dangerous files in service
+suspicious_file_log = set()     # Set of unchecked files
+shared_files = {}               # Set of files that are shared to all users
+checker_queue = queue.LifoQueue(1000)   # Last-in-First-out queue for storing unchecked files
 
 def checkerLoop(queue):
     """ This checks each incoming file. If they are not PNG files they
@@ -146,7 +145,10 @@ def share_file():
         <!doctype html>
         <title>File shared</title>
         <h1>File shared: %s</h1>
-        <a href="/user_content">back to files</a>''' % user_file
+        <a href="/user_content">back to files</a>
+        <br>
+        <a href="/logout">log out</a>
+        ''' % user_file
 
 
 @app.route('/delete_file')
@@ -170,14 +172,20 @@ def delete_file():
         <!doctype html>
         <title>File deleted</title>
         <h1>File Deleted: %s</h1>
-        <a href="/user_content">back to files</a>''' % files
+        <a href="/user_content">back to files</a>
+        <br>
+        <a href="/logout">log out</a>
+        ''' % files
     else:
         os.remove(configuration['web_root'] + "/" + user_file)
         return '''
         <!doctype html>
         <title>File deleted</title>
         <h1>File Deleted: %s</h1>
-        <a href="/user_content">back to files</a>''' % user_file
+        <a href="/user_content">back to files</a>
+        <br>
+        <a href="/logout">log out</a>
+        ''' % user_file
 
 
 @app.route('/upload_file', methods=['GET', 'POST'])
@@ -203,7 +211,7 @@ def upload_file():
             checkPath(thefile.filename)
             target_path = path + '/' + thefile.filename
 
-            # Mark the initially as suspicious. The checker thread will
+            # Mark the fle initially as suspicious. The checker thread will
             # remove this flag
             suspicious_file_log.add(thefile.filename)
 
@@ -222,6 +230,8 @@ def upload_file():
       <input type=file name=file>
       <input type=submit value=Upload>
     </form>
+    <br>
+    <a href="/logout">log out</a>
     '''
 
 
@@ -279,4 +289,6 @@ def serve_file():
             <h1>Upload more files</h1>
             You can upload more files <a href="/upload_file">here</a>
             </form>
+            <br>
+            <a href="/logout">log out</a>
             ''' % (link_list, rejects,shared_list)
