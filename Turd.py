@@ -30,8 +30,7 @@ def checkerLoop(queue):
     while True:
         filename = queue.get()
         res = subprocess.run(
-            "file %s" % filename,
-            shell=True,
+            ["file" ,filename],
             timeout=15,
             stdout=subprocess.PIPE)
         res = res.stdout.decode('utf-8')
