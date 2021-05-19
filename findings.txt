@@ -97,4 +97,46 @@ Korjaus estää uuden polkuinjektion syntymisen, sillä uutta reittiä luotaessa
 1pt vian korjaamisesta
 0pt vikatyypin eliminoimisesta
 
+
+## Ongelma 4 //Matti löysi, korjaus puuttuu vielä
+
+Tyyppi:   polkuinjektio
+Sijainti: login()
+Kuvaus: Voidaan kirjautua sisään millä nimellä tahansa, sekä urkkia tietoa.
+
+Aliohjelma tarkistaa users -taulukosta käyttänimet, mutta päästää läpi kaikki sellaiset käyttäjänimet, joita ei ole listattu taulukkoon.
+
+### Esimerkkihyökkäys: 
+
+1) Kirjaudu sisään jonakin käyttäjänä.
+2) Lisää kuvia palveluun
+3) Log out käyttäjällä
+4) Hyökkääjä päättää syöttää webselaimen url kenttään: http://localhost:5000/login?user=ihanmikavaan
+5) Tulos: Hyökkääjä pääsee käsiksi jaettuihin tiedostoihin.
+
+### Korjaus:
+
+Commit: <ongelma4, shellinjektio, korjattu>
+
+
+## Ongelma 5 //Matti löysi, korjaus puuttuu vielä
+
+Tyyppi:   polkuinjektio
+Sijainti: login()
+Kuvaus: Voidaan kirjautua sisään millä nimellä tahansa, sekä syöttää kuvia palveluun.
+
+Aliohjelma tarkistaa users -taulukosta käyttänimet, mutta päästää läpi kaikki sellaiset käyttäjänimet, joita ei ole listattu taulukkoon.
+
+### Esimerkkihyökkäys: 
+
+1) Hyökkääjä päättää syöttää webselaimen url kenttään: http://localhost:5000/login?user=ihanmikavaan.
+2) Hyökkääjä alkaa latailemaan tietostoja palveluun.
+2) Tulos: Hyökkääjä pääsee lataamaan palveluun kuvia, ja voi pahimmassa tapauksessa tukkia koko roskan.
+
+### Korjaus:
+
+Commit: <ongelma5, shellinjektio, korjattu>
+
+
+
 ...
