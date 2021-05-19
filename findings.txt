@@ -21,7 +21,7 @@ jonkin järjestelmätiedoston.
 
 ### Korjaus:
 
-Commit: <git hash>
+Commit: <>
 
 Korjasin tämän näin... 
 
@@ -36,7 +36,7 @@ Korjaus estää uuden polkuinjektion syntymisen, sillä uutta reittiä luotaessa
 1pt vikatyypin eliminoimisesta
 
 
-## Ongelma 2 //Elisa tekee, kesken
+## Ongelma 2 
 
 Tyyppi:   Shellinjektio
 Sijainti: checkerLoop(queue)
@@ -52,7 +52,7 @@ Aliohjelmassa checkerLoop käyttäjän antama tiedostonnimi menee komentotulkkii
 
 ### Korjaus:
 
-Commit: <git hash>
+Commit: <ongelma2, shellinjektio, korjattu>
 
 Korjasin tämän poistamalla "Shell=true", kohdan ja laittamalla komennot listana, enkä yhtenä merkkijonona. 
 
@@ -66,5 +66,35 @@ Korjaus estää uuden polkuinjektion syntymisen, sillä uutta reittiä luotaessa
 1pt vian korjaamisesta
 0pt vikatyypin eliminoimisesta
 
+
+## Ongelma 3 //Matti löysi, elisa tekee, kesken
+
+Tyyppi:   xss_injektio
+Sijainti: checkerLoop
+Kuvaus: Voidaan ladata sivulle html yms. tiedostoja(tiedostonimen mukana)
+
+Aliohjelmassa checkerLoop saadaan lisättyä html-tiedostoja, joilla voi esimerkiksi rikkoa sivun käyttöliittymän tai lähetellä mitä vain muita pyyntöjä.
+
+### Esimerkkihyökkäys: 
+
+1) Kirjaudu sisään jonakin käyttäjänä.
+2) Riittää, että ihan vain lisää ja uploadaa tyhjän tiedoston, jonka nimeksi on laitettu <h1>HAKKEROINTI</h1><script>alert()</script>.html
+3) Tulos: Ei voida enää ladata uusia tiedostoja tai jakaa tiedostoja vaan niiden tilalla lukee HAKKEROINTI<:h1>
+
+### Korjaus:
+
+Commit: <ongelma3, shellinjektio, korjattu>
+
+Korjasin tämän poistamalla "Shell=true", kohdan ja laittamalla komennot listana, enkä yhtenä merkkijonona. 
+
+Korjaus toimii koska enää ei mennä komentotulkin kautta, ekä käytetä merkkijonoja johon vain liimattaisiin asioita. Tiedostonnimeä ei siis voida ottaa enää komentoina vaan se on vain yksi tiedostonnimi.
+
+Korjaus estää uuden polkuinjektion syntymisen, sillä uutta reittiä luotaessa...
+
+### Pisteet(2pt)
+
+1pt vian löytämisestä
+1pt vian korjaamisesta
+0pt vikatyypin eliminoimisesta
 
 ...
