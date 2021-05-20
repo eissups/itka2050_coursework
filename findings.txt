@@ -67,7 +67,7 @@ Korjaus estää uuden polkuinjektion syntymisen, sillä uutta reittiä luotaessa
 0pt vikatyypin eliminoimisesta
 
 
-## Ongelma 3 //Matti löysi, elisa tekee, kesken
+## Ongelma 3 
 
 Tyyppi:   xss_injektio
 Sijainti: checkerLoop
@@ -83,11 +83,11 @@ Aliohjelmassa checkerLoop saadaan lisättyä html-tiedostoja, joilla voi esimerk
 
 ### Korjaus:
 
-Commit: <ongelma3, shellinjektio, korjattu>
+Commit: <ongelma3, xss_injektio korjattu>
 
-Korjasin tämän poistamalla "Shell=true", kohdan ja laittamalla komennot listana, enkä yhtenä merkkijonona. 
+Korjasin tämän niin, että bad_file_logiin lisäyskäskyn tiedostonnimi muutetaan vaarattomaksi secure_filename:llä. 
 
-Korjaus toimii koska enää ei mennä komentotulkin kautta, ekä käytetä merkkijonoja johon vain liimattaisiin asioita. Tiedostonnimeä ei siis voida ottaa enää komentoina vaan se on vain yksi tiedostonnimi.
+Korjaus toimii koska securefilename suodattaa vaaralliset merkit pois.
 
 Korjaus estää uuden polkuinjektion syntymisen, sillä uutta reittiä luotaessa...
 
@@ -98,7 +98,7 @@ Korjaus estää uuden polkuinjektion syntymisen, sillä uutta reittiä luotaessa
 0pt vikatyypin eliminoimisesta
 
 
-## Ongelma 4 //Matti löysi, korjattu
+## Ongelma 4 
 
 Tyyppi:   polkuinjektio
 Sijainti: login()
@@ -120,7 +120,7 @@ Korjattu lisäämällä muuttamalla ehto muodosta 'if username:' -> 'if username
 Commit: <ongelma4, polkuinjektio, korjattu>
 
 
-## Ongelma 5 //Matti löysi, korjattu
+## Ongelma 5 
 
 Tyyppi:   polkuinjektio
 Sijainti: login()
@@ -140,7 +140,7 @@ Ongelman 4 korjaus korjaa tämänkin ellei jäänyt jotain reikää johonkin. El
 Commit: <ongelma5, polkuinjektio, korjattu>
 
 
-## Ongelma 6 //Matti löysi, korjattu
+## Ongelma 6 
 
 Tyyppi:   käyttäjänimet vaarassa löytyä
 Sijainti: login()
@@ -161,4 +161,26 @@ Kopioidaan toisen else -lauseen return -lauseen sisältö suoraan myös toiseen/
 Commit: <ongelma6, polkuinjektio, korjattu>
 
 
-...
+ ## Ongelma 7 //kesken
+
+Tyyppi:   xss-injektio
+Sijainti: checkerloop
+Kuvaus: Voidaan lisätä .txt-päätteisiä tiedostoja
+
+Voidaan lisätä esim. katti.jpg%00.txt, mutta onko edes ongelma kun on oikeasti jpg?
+
+### Esimerkkihyökkäys: 
+
+1) 
+2) 
+3) 
+4)
+
+### Korjaus:
+
+
+Commit: <>
+
+
+
+

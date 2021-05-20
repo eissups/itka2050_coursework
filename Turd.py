@@ -1,5 +1,6 @@
 import os
 from flask import Flask, send_file, request, redirect, url_for, make_response
+from werkzeug.utils import secure_filename
 import yaml
 import queue
 import subprocess
@@ -38,7 +39,7 @@ def checkerLoop(queue):
         if not ("PNG image data" in res
                 or "JPEG image data" in res):
             os.remove(filename)
-            bad_file_log.add(filename)
+            bad_file_log.add(secure_filename(filename))
         else:
             suspicious_file_log.remove(os.path.basename(filename))
 
