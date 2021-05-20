@@ -60,7 +60,7 @@ def login():
     """
     username = request.args.get('user')
     password = request.args.get('password')
-    if username:
+    if username in users:
 
         if users.get(username) == password:
             
