@@ -98,7 +98,7 @@ Korjaus estää uuden polkuinjektion syntymisen, sillä uutta reittiä luotaessa
 0pt vikatyypin eliminoimisesta
 
 
-## Ongelma 4 //Matti löysi, korjaus puuttuu vielä
+## Ongelma 4 //Matti löysi, lopullinen korjaus puuttuu vielä?
 
 Tyyppi:   polkuinjektio
 Sijainti: login()
@@ -115,8 +115,9 @@ Aliohjelma tarkistaa users -taulukosta käyttänimet, mutta päästää läpi ka
 5) Tulos: Hyökkääjä pääsee käsiksi jaettuihin tiedostoihin.
 
 ### Korjaus:
+Korjattu lisäämällä muuttamalla ehto muodosta 'if username:' -> 'if username in users:'. Eli aikaisemmin 'if username' palautti aina truen. Nyt se tarkistaa onko se username oikeasti siellä 'users' -taulukossa. MUTTA tästä syntyy uusi ongelma, joka pitää korjata erikseen, eli nyt voidaan käydä läpi käyttäjänimiä, joilla on käyttäjä palvelussa. Jos löytyy oikea käyttäjänimi, niin sivusto viestii, että 'login failed' eli ks. ongelma 6.
 
-Commit: <ongelma4, shellinjektio, korjattu>
+Commit: <ongelma4, polkuinjektio, korjattu>
 
 
 ## Ongelma 5 //Matti löysi, korjaus puuttuu vielä
@@ -134,9 +135,30 @@ Aliohjelma tarkistaa users -taulukosta käyttänimet, mutta päästää läpi ka
 2) Tulos: Hyökkääjä pääsee lataamaan palveluun kuvia, ja voi pahimmassa tapauksessa tukkia koko roskan.
 
 ### Korjaus:
+Ongelman 4 korjaus korjaa tämänkin ellei jäänyt jotain reikää johonkin. Eli: "Korjattu lisäämällä muuttamalla ehto muodosta 'if username:' -> 'if username in users:'. Eli aikaisemmin 'if username' palautti aina truen. Nyt se tarkistaa onko se username oikeasti siellä 'users' -taulukossa. MUTTA tästä syntyy uusi ongelma, joka pitää korjata erikseen, eli nyt voidaan käydä läpi käyttäjänimiä, joilla on käyttäjä palvelussa. Jos löytyy oikea käyttäjänimi, niin sivusto viestii, että 'login failed' eli ks. ongelma 6."
 
-Commit: <ongelma5, shellinjektio, korjattu>
+Commit: <ongelma5, polkuinjektio, korjattu>
 
+
+## Ongelma 6 //Matti löysi, lopullinen korjaus puuttuu vielä
+
+Tyyppi:   käyttäjänimet vaarassa löytyä
+Sijainti: login()
+Kuvaus: Hyökkääjä voi arvailla ohjelmassa olevat käyttäjänimet
+
+Aliohjelma tarkistaa users -taulukosta käyttänimet, jos käyttäjä löytyy listasta, mutta salasana on väärin tulostetaan webselaimen ikkunaan: "Login failed!". Jos käyttäjänimeä ei ole users-taulukossa, niin tulostetaan webselaimeen sama login ruutu kuin alussa on.
+
+### Esimerkkihyökkäys: 
+
+1) Hyökkääjä kokeilee urliin käyttäjänimiä esim: http://localhost:5000/login?user=lion
+2) Vastauksena tulee html sivu, jossa kerrotaan, että login failed
+3) Hyökkääjä arvaa, että tälläinen käyttjänimi on järjestelmässä!
+4) Tulos: Hyökkääjällä on tiedossa karkeasti sanottuna puolet tunnus:salasana -parista.
+
+### Korjaus:
+
+
+Commit: <ongelma6, polkuinjektio, korjattu>
 
 
 ...
