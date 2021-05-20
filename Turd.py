@@ -82,16 +82,16 @@ def login():
             return resp
 
         else:
-            return """
+            return '''
             <!doctype html>
-            <title>Login failed</title>
-            <h1>Login failed!</h1>
+            <title>Log in</title>
+            <h1>System log in</h1>
             <form>
-              <input type=text name=user>
-              <input type=password name=password>
-              <input type=submit value="Log In">
+                <input type=text name=user>
+                <input type=password name=password>
+                <input type=submit value="Log In">
             </form>
-            """
+            '''
 
     else:
         return '''
