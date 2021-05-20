@@ -98,7 +98,7 @@ Korjaus estää uuden polkuinjektion syntymisen, sillä uutta reittiä luotaessa
 0pt vikatyypin eliminoimisesta
 
 
-## Ongelma 4 //Matti löysi, lopullinen korjaus puuttuu vielä?
+## Ongelma 4 //Matti löysi, korjattu
 
 Tyyppi:   polkuinjektio
 Sijainti: login()
@@ -120,7 +120,7 @@ Korjattu lisäämällä muuttamalla ehto muodosta 'if username:' -> 'if username
 Commit: <ongelma4, polkuinjektio, korjattu>
 
 
-## Ongelma 5 //Matti löysi, korjaus puuttuu vielä
+## Ongelma 5 //Matti löysi, korjattu
 
 Tyyppi:   polkuinjektio
 Sijainti: login()
@@ -140,7 +140,7 @@ Ongelman 4 korjaus korjaa tämänkin ellei jäänyt jotain reikää johonkin. El
 Commit: <ongelma5, polkuinjektio, korjattu>
 
 
-## Ongelma 6 //Matti löysi, lopullinen korjaus puuttuu vielä
+## Ongelma 6 //Matti löysi, korjattu
 
 Tyyppi:   käyttäjänimet vaarassa löytyä
 Sijainti: login()
@@ -156,7 +156,7 @@ Aliohjelma tarkistaa users -taulukosta käyttänimet, jos käyttäjä löytyy li
 4) Tulos: Hyökkääjällä on tiedossa karkeasti sanottuna puolet tunnus:salasana -parista.
 
 ### Korjaus:
-
+Kopioidaan toisen else -lauseen return -lauseen sisältö suoraan myös toiseen/ensimmäiseen else -lauseeseen. Eli: <h1>Login failed!</h1> -> <h1>System log in</h1> jne. Nyt jos yrittää kirjautua ilman salasanaa, sivusto ei viesti 'login failed' -viestiä. Hyökkääjä ei ainakaan tätä kautta voi arvailla käyttäjänimiä.
 
 Commit: <ongelma6, polkuinjektio, korjattu>
 
