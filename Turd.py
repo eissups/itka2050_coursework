@@ -162,6 +162,12 @@ def delete_file():
     if not username: return redirect(url_for('login'))
     path = configuration['web_root'] + "/" + username
 
+    otherusers = users.copy()
+    otherusers.pop(username)
+    
+    for user in otherusers:
+        if user in request.url: return redirect(url_for('serve_file'))
+
     user_file = request.args.get('file')
 
     if user_file == '*':
