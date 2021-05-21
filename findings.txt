@@ -179,8 +179,66 @@ Voidaan lisätä esim. katti.jpg%00.txt, mutta onko edes ongelma kun on oikeasti
 ### Korjaus:
 
 
+
+## Ongelma 8 // Korjaus tehty.
+
+Tyyppi:   cookie poisoning
+Sijainti: login()
+Kuvaus: Jos tiedetään joku muu käyttäjä, niin voidaan kirjautua ilman salasanaa hänen tilille.
+
+Jos on tiedossa toisen käyttäjän pelkkä käyttäjätunnus, joka on jollain tapaa saatu selville. Esimerkiksi logout -tapahtuman jälkeen, kun tulostuu nimi ruudulle (TODO: lisää tästä ongelma!), niin joku voi nähdä sen ihan vain vilkaisemalla näyttöä. Sen jälkeen manipuloimalla pelkästään webselaimella cookieta voidaan kirjautua sisään palveluun. Sekä lisäksi nähdä kaikki kyseisen käyttäjän tiedot ja tehdä niillä mitä lystää.
+
+### Esimerkkihyökkäys: 
+
+1) Käyttäjänimi on saatu selville jotenkin.
+2) Hyökkääjä avaa inspect -työkalun ja alkaa kirjoittamaan snippets -kohtaan scriptiä/snippettiä. 
+3) Hyökkääjän koodi:
+   newCookie = "null";
+   newCookie = "username=lion"; <- tai joku selville saatu username
+   document.cookie = newCookie;
+4) Hyökkääjä ajaa koodin: "run snippet"
+5) Hyökkääjä lataa sivun uudestaan ja pääsee käsiksi toisen käyttäjän tiliin ja tiedostoihin.
+
+### Korjaus:
+
+
+## Ongelma 9 // Korjaus työnalla.
+
+Tyyppi:   nimen näkyminen tarpeettomasti
+Sijainti: melkein joka puolella
+Kuvaus: Altistaa muille hyökkäyksille, kun käyttäjänimi on näkyvillä
+
+Tarviiko tätä edes enempää selostaa. Ks. ongelma 8, siellä on selitetty käyttäjänimen näkymisen tuottamista ongelmista.
+
+### Esimerkkihyökkäys: 
+
+1) Käyttäjänimi on saatu selville jotenkin.
+2) Hyökkääjä voi käyttää sitä monella tapaa väärin tai hajottaa koko palvelun.
+
+
+
+## Ongelma 10 // Korjaus työnalla.
+
+Tyyppi:   poistaa kaikki tiedostot kerralla
+Sijainti: delete_file()
+Kuvaus: Hyökkääjä voi laittaa urlin perään '*' -merkin ja poistaa kaikki tiedostot käyttäjältä
+
+Esimerkki url : http://localhost:5000/user_content?file=*
+Yllä mainittu url siis poistaa kaikki tiedostot tietyltä käyttäjältä.
+Hyökkääjä voi muun muassa tehdä näin jos toteuttaa ongelmaa 8.
+
+### Esimerkkihyökkäys: 
+
+1) Käyttäjänimi on saatu selville jotenkin.
+2) Hyökkääjä voi käyttää sitä monella tapaa väärin tai hajottaa koko palvelun.
+3) Hyökkääjä on päässyt kirjautumaan jonkun tilille.
+4) Hyökkääjä syöttää url -kenttään: http://localhost:5000/user_content?file=*
+5) Tiedostot deletoituvat kaikki kyseessä olevan käyttäjän tililtä.
+
+
+
+### Korjaus:
+
+
+
 Commit: <>
-
-
-
-
