@@ -21,19 +21,21 @@ jonkin järjestelmätiedoston.
 
 ### Korjaus:
 
-Commit: <>
+Commit: <Ongelma 1 korjattu>
 
-Korjasin tämän näin... 
+Korjasin tämän lisäämällä tarkistuksen, onko polussa jonkun muun käyttäjän
+kuin kirjautuneena olevan käyttäjänimi.
 
-Korjaus toimii koska... 
+Korjaus toimii koska jos löydetään jonkun muun käyttäjän nimi, ei poisteta mitään vaan 
+palataan vain takaisin omiin tiedostoihin.
 
 Korjaus estää uuden polkuinjektion syntymisen, sillä uutta reittiä luotaessa...
 
-### Pisteet(3pt)
+### Pisteet(2pt)
 
 1pt vian löytämisestä
 1pt vian korjaamisesta
-1pt vikatyypin eliminoimisesta
+0pt vikatyypin eliminoimisesta
 
 
 ## Ongelma 2 
@@ -69,7 +71,7 @@ Korjaus estää uuden polkuinjektion syntymisen, sillä uutta reittiä luotaessa
 
 ## Ongelma 3 
 
-Tyyppi:   xss_injektio
+Tyyppi: xss_injektio
 Sijainti: checkerLoop
 Kuvaus: Voidaan ladata sivulle html yms. tiedostoja(tiedostonimen mukana)
 
@@ -83,7 +85,7 @@ Aliohjelmassa checkerLoop saadaan lisättyä html-tiedostoja, joilla voi esimerk
 
 ### Korjaus:
 
-Commit: <ongelma3, xss_injektio korjattu>
+Commit: <ongelma3 korjattu>
 
 Korjasin tämän niin, että bad_file_logiin lisäyskäskyn tiedostonnimi muutetaan vaarattomaksi secure_filename:llä. 
 
