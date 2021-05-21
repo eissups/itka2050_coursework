@@ -73,7 +73,7 @@ def login():
               """)
 
             # Set login cookie in the user browser
-            resp.set_cookie('username', username)
+            resp.set_cookie("username", value = username, httponly = True)
 
             # Create directory for user files
             path = configuration['web_root'] + "/" + username
