@@ -1,7 +1,7 @@
 ## Harjoitustyöraportti
 
-Palauttajat (max 3): N.N,  N.N ja N.N
-Pisteitä yhteensä: 3.
+Palauttajat (max 3): Elisa Autonen ja Matti Takasalo
+Pisteitä yhteensä: .
 
 ## Ongelma 1
 Tyyppi:   Polkuinjektio
@@ -58,7 +58,8 @@ Commit: <ongelma2, shellinjektio, korjattu>
 
 Korjasin tämän poistamalla "Shell=true", kohdan ja laittamalla komennot listana, enkä yhtenä merkkijonona. 
 
-Korjaus toimii koska enää ei mennä komentotulkin kautta, ekä käytetä merkkijonoja johon vain liimattaisiin asioita. Tiedostonnimeä ei siis voida ottaa enää komentoina vaan se on vain yksi tiedostonnimi.
+Korjaus toimii koska enää ei mennä komentotulkin kautta, ekä käytetä merkkijonoja johon vain liimattaisiin asioita. 
+Tiedostonnimeä ei siis voida ottaa enää komentoina vaan se on vain yksi tiedostonnimi.
 
 Korjaus estää uuden polkuinjektion syntymisen, sillä uutta reittiä luotaessa...
 
@@ -75,7 +76,8 @@ Tyyppi: xss_injektio
 Sijainti: checkerLoop
 Kuvaus: Voidaan ladata sivulle html yms. tiedostoja(tiedostonimen mukana)
 
-Aliohjelmassa checkerLoop saadaan lisättyä html-tiedostoja, joilla voi esimerkiksi rikkoa sivun käyttöliittymän tai lähetellä mitä vain muita pyyntöjä.
+Aliohjelmassa checkerLoop saadaan lisättyä tiedostoja, joilla on vaarallinen nimi
+ja voidaan esimerkiksi rikkoa sivun käyttöliittymän tai lähetellä mitä vain muita pyyntöjä.
 
 ### Esimerkkihyökkäys: 
 
@@ -117,10 +119,22 @@ Aliohjelma tarkistaa users -taulukosta käyttänimet, mutta päästää läpi ka
 5) Tulos: Hyökkääjä pääsee käsiksi jaettuihin tiedostoihin.
 
 ### Korjaus:
-Korjattu lisäämällä muuttamalla ehto muodosta 'if username:' -> 'if username in users:'. Eli aikaisemmin 'if username' palautti aina truen. Nyt se tarkistaa onko se username oikeasti siellä 'users' -taulukossa. MUTTA tästä syntyy uusi ongelma, joka pitää korjata erikseen, eli nyt voidaan käydä läpi käyttäjänimiä, joilla on käyttäjä palvelussa. Jos löytyy oikea käyttäjänimi, niin sivusto viestii, että 'login failed' eli ks. ongelma 6.
+
 
 Commit: <ongelma4, polkuinjektio, korjattu>
 
+Korjattu lisäämällä muuttamalla ehto muodosta 'if username:' -> 'if username in users:'. 
+Eli aikaisemmin 'if username' palautti aina truen. 
+
+Korjaus toimii, koska nyt tarkistaa onko se username oikeasti siellä 'users' -taulukossa. 
+MUTTA tästä syntyy uusi ongelma, joka pitää korjata erikseen, eli nyt voidaan käydä läpi käyttäjänimiä, joilla on käyttäjä palvelussa. 
+Jos löytyy oikea käyttäjänimi, niin sivusto viestii, että 'login failed' eli ks. ongelma 6.
+
+### Pisteet(2pt)
+
+1pt vian löytämisestä
+1pt vian korjaamisesta
+0pt vikatyypin eliminoimisesta
 
 ## Ongelma 5 
 
@@ -137,10 +151,21 @@ Aliohjelma tarkistaa users -taulukosta käyttänimet, mutta päästää läpi ka
 2) Tulos: Hyökkääjä pääsee lataamaan palveluun kuvia, ja voi pahimmassa tapauksessa tukkia koko roskan.
 
 ### Korjaus:
-Ongelman 4 korjaus korjaa tämänkin ellei jäänyt jotain reikää johonkin. Eli: "Korjattu lisäämällä muuttamalla ehto muodosta 'if username:' -> 'if username in users:'. Eli aikaisemmin 'if username' palautti aina truen. Nyt se tarkistaa onko se username oikeasti siellä 'users' -taulukossa. MUTTA tästä syntyy uusi ongelma, joka pitää korjata erikseen, eli nyt voidaan käydä läpi käyttäjänimiä, joilla on käyttäjä palvelussa. Jos löytyy oikea käyttäjänimi, niin sivusto viestii, että 'login failed' eli ks. ongelma 6."
 
 Commit: <ongelma5, polkuinjektio, korjattu>
 
+Ongelman 4 korjaus korjaa tämänkin ellei jäänyt jotain reikää johonkin. 
+Eli: "Korjattu lisäämällä muuttamalla ehto muodosta 'if username:' -> 'if username in users:'. 
+Eli aikaisemmin 'if username' palautti aina truen.
+Nyt se tarkistaa onko se username oikeasti siellä 'users' -taulukossa. 
+MUTTA tästä syntyy uusi ongelma, joka pitää korjata erikseen, eli nyt voidaan käydä läpi käyttäjänimiä, joilla on käyttäjä palvelussa. 
+Jos löytyy oikea käyttäjänimi, niin sivusto viestii, että 'login failed' eli ks. ongelma 6."
+
+### Pisteet(2pt)
+
+1pt vian löytämisestä
+1pt vian korjaamisesta
+0pt vikatyypin eliminoimisesta
 
 ## Ongelma 6 
 
@@ -158,9 +183,19 @@ Aliohjelma tarkistaa users -taulukosta käyttänimet, jos käyttäjä löytyy li
 4) Tulos: Hyökkääjällä on tiedossa karkeasti sanottuna puolet tunnus:salasana -parista.
 
 ### Korjaus:
-Kopioidaan toisen else -lauseen return -lauseen sisältö suoraan myös toiseen/ensimmäiseen else -lauseeseen. Eli: <h1>Login failed!</h1> -> <h1>System log in</h1> jne. Nyt jos yrittää kirjautua ilman salasanaa, sivusto ei viesti 'login failed' -viestiä. Hyökkääjä ei ainakaan tätä kautta voi arvailla käyttäjänimiä.
 
 Commit: <ongelma6, polkuinjektio, korjattu>
+
+Kopioidaan toisen else -lauseen return -lauseen sisältö suoraan myös toiseen/ensimmäiseen else -lauseeseen. Eli: <h1>Login failed!</h1> -> <h1>System log in</h1> jne.
+
+Korjaus toimii, koska jos nyt yrittää kirjautua ilman salasanaa, sivusto ei viesti 'login failed' -viestiä. Hyökkääjä ei ainakaan tätä kautta voi arvailla käyttäjänimiä.
+
+### Pisteet(2pt)
+
+1pt vian löytämisestä
+1pt vian korjaamisesta
+0pt vikatyypin eliminoimisesta
+
 
 
  ## Ongelma 7 //kesken
@@ -201,12 +236,24 @@ Jos on tiedossa toisen käyttäjän pelkkä käyttäjätunnus, joka on jollain t
 4) Hyökkääjä ajaa koodin: "run snippet"
 5) Hyökkääjä lataa sivun uudestaan ja pääsee käsiksi toisen käyttäjän tiliin ja tiedostoihin.
 
+
 ### Korjaus:
+
+Korjattiin muuttamalla resp.set_cookie('username', username) tälläiseksi:
+resp.set_cookie("username", value = username, httponly = True). 
+
+Korjaus toimii, koska  httponly:a käyttämällä vähennetään riskiä, että hyökkääjä pääsisi käsiksi evästeisiin.
+
+### Pisteet(2pt)
+
+1pt vian löytämisestä
+1pt vian korjaamisesta
+0pt vikatyypin eliminoimisesta
 
 
 ## Ongelma 9 // Korjaus työnalla.
 
-Tyyppi:   nimen näkyminen tarpeettomasti
+Tyyppi:  nimen näkyminen tarpeettomasti
 Sijainti: melkein joka puolella
 Kuvaus: Altistaa muille hyökkäyksille, kun käyttäjänimi on näkyvillä
 
@@ -216,7 +263,6 @@ Tarviiko tätä edes enempää selostaa. Ks. ongelma 8, siellä on selitetty kä
 
 1) Käyttäjänimi on saatu selville jotenkin.
 2) Hyökkääjä voi käyttää sitä monella tapaa väärin tai hajottaa koko palvelun.
-
 
 
 ## Ongelma 10 // Korjaus työnalla.
@@ -237,10 +283,49 @@ Hyökkääjä voi muun muassa tehdä näin jos toteuttaa ongelmaa 8.
 4) Hyökkääjä syöttää url -kenttään: http://localhost:5000/user_content?file=*
 5) Tiedostot deletoituvat kaikki kyseessä olevan käyttäjän tililtä.
 
-
-
 ### Korjaus:
 
 
 
+
+
+
+
+
+
 Commit: <>
+
+
+## Ongelma 11
+Tyyppi:   Polkuinjektio
+Sijainti: checkerLoop
+Kuvaus:
+
+Aliohjelmassa checkerLoop ei estetä lataamasta muita kuin kuvatiedostoja.
+
+### Esimerkkihyökkäys: 
+
+1) Kirjaudu sisään jonakin käyttäjänä.
+2) Lataa tiedosto .html
+3) Suoritetaan ladatun tiedoston koodi
+
+### Korjaus:
+
+Commit: <>
+
+Korjasin tämän ..
+
+Korjaus toimii koska..
+
+Korjaus estää uuden polkuinjektion syntymisen, sillä uutta reittiä luotaessa...
+
+### Pisteet(0pt)
+
+0pt vian löytämisestä
+0pt vian korjaamisesta
+0pt vikatyypin eliminoimisesta
+
+
+7, 9, 10, 
+
+13 + 3
