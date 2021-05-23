@@ -1,7 +1,8 @@
 ## Harjoitustyöraportti
 
-Palauttajat (max 3): Elisa Autonen ja Matti Takasalo
-Pisteitä yhteensä: 17
+Palauttajat : Elisa Autonen ja Matti Takasalo
+Pisteitä yhteensä: 18
+
 
 ## Ongelma 1
 Tyyppi:   Polkuinjektio
@@ -120,7 +121,6 @@ Aliohjelma tarkistaa users -taulukosta käyttänimet, mutta päästää läpi ka
 
 ### Korjaus:
 
-
 Commit: <ongelma4, polkuinjektio, korjattu>
 
 Korjattu lisäämällä muuttamalla ehto muodosta 'if username:' -> 'if username in users:'. 
@@ -135,6 +135,7 @@ Jos löytyy oikea käyttäjänimi, niin sivusto viestii, että 'login failed' el
 1pt vian löytämisestä
 0.5pt vian korjaamisesta (tehtävä 5 loput)
 0pt vikatyypin eliminoimisesta
+
 
 ## Ongelma 5 
 
@@ -167,6 +168,7 @@ Jos löytyy oikea käyttäjänimi, niin sivusto viestii, että 'login failed' el
 0.5pt vian korjaamisesta (tehtävänä 4 loput)
 0pt vikatyypin eliminoimisesta
 
+
 ## Ongelma 6 
 
 Tyyppi:   käyttäjänimet vaarassa löytyä
@@ -197,14 +199,13 @@ Korjaus toimii, koska jos nyt yrittää kirjautua ilman salasanaa, sivusto ei vi
 0pt vikatyypin eliminoimisesta
 
 
-
- ## Ongelma 7 //kesken
+## Ongelma 7 
 
 Tyyppi:   xss-injektio
 Sijainti: checkerloop
 Kuvaus: Voidaan lisätä .txt-päätteisiä tiedostoja
 
-Voidaan lisätä esim. katti.jpg%00.txt, mutta onko edes ongelma kun on oikeasti jpg?
+Voidaan lisätä esim. katti.jpg%00.txt, mutta onko ongelma kun on oikeasti jpg?
 
 ### Esimerkkihyökkäys: 
 
@@ -220,7 +221,6 @@ Voidaan lisätä esim. katti.jpg%00.txt, mutta onko edes ongelma kun on oikeasti
 1pt vian löytämisestä
 0pt vian korjaamisesta
 0pt vikatyypin eliminoimisesta
-
 
 
 ## Ongelma 8 // Korjaus tehty.
@@ -242,7 +242,6 @@ Jos on tiedossa toisen käyttäjän pelkkä käyttäjätunnus, joka on jollain t
 4) Hyökkääjä ajaa koodin: "run snippet"
 5) Hyökkääjä lataa sivun uudestaan ja pääsee käsiksi toisen käyttäjän tiliin ja tiedostoihin.
 
-
 ### Korjaus:
 
 Korjattiin muuttamalla resp.set_cookie('username', username) tälläiseksi:
@@ -257,7 +256,7 @@ Korjaus toimii, koska  httponly:a käyttämällä vähennetään riskiä, että 
 0pt vikatyypin eliminoimisesta
 
 
-## Ongelma 9 // Korjaus työnalla.
+## Ongelma 9 
 
 Tyyppi:  nimen näkyminen tarpeettomasti
 Sijainti: melkein joka puolella
@@ -281,39 +280,11 @@ Commit: <>
 0pt vikatyypin eliminoimisesta
 
 
-## Ongelma 10 // Korjaus työnalla.
+## Ongelma 10 // Korjattu
 
-Tyyppi:   poistaa kaikki tiedostot kerralla
-Sijainti: delete_file()
-Kuvaus: Hyökkääjä voi laittaa urlin perään '*' -merkin ja poistaa kaikki tiedostot käyttäjältä
+Tyyppi: Tietoturvaongelma
+Sijainti: serve_file()
 
-Esimerkki url : http://localhost:5000/user_content?file=*
-Yllä mainittu url siis poistaa kaikki tiedostot tietyltä käyttäjältä.
-Hyökkääjä voi muun muassa tehdä näin jos toteuttaa ongelmaa 8.
-
-### Esimerkkihyökkäys: 
-
-1) Käyttäjänimi on saatu selville jotenkin.
-2) Hyökkääjä voi käyttää sitä monella tapaa väärin tai hajottaa koko palvelun.
-3) Hyökkääjä on päässyt kirjautumaan jonkun tilille.
-4) Hyökkääjä syöttää url -kenttään: http://localhost:5000/user_content?file=*
-5) Tiedostot deletoituvat kaikki kyseessä olevan käyttäjän tililtä.
-
-### Korjaus:
-
-Commit: <>
-
-### Pisteet(1pt)
-
-1pt vian löytämisestä
-0pt vian korjaamisesta
-0pt vikatyypin eliminoimisesta
-
-## Ongelma 11 // Korjaus työnalla.
-
-Tyyppi: 
-
-Sijainti: delete_file()
 Kuvaus: 
 Nähdään muiden hylättyjen tiedostojen nimet sekä niitä lisätä yrittäneen käyttäjän
 käyttäjänimi. Siinä vaiheessa käyttäjä ei ole jakanut tiedostojaan vielä muille vaan
@@ -335,7 +306,6 @@ käyttäjille näkyviksi on riskialtista.
    liittää sen osoitteeseen ja korvaa alaviivat /-merkeillä
 5) Suen kaikki tiedostot poistuu :(
 
-
 ### Esimerkkihyökkäys 2: 
 
 1) Sam lataa palveluun vahingossa tiedoston, esim. videon, jonka on nimennyt
@@ -344,6 +314,41 @@ käyttäjille näkyviksi on riskialtista.
 2) Tiedosto hylätään, koska se ei ole kuva
 3) Kaikki näkevät samin lataaman, mutta hylätyn tiedoston sam/"tiedosto" muodossa :(
 4) Samiä vähintäänkin hävettää
+
+### Korjaus:
+
+Korjasin tämän niin, että muutin bad_file_log:n rakenteen set:stä list:ksi, johon voidaan laittaa sekä
+tiedoston ladannut käyttäjä että ladatun tiedoston nimi. Ennen tulostamista otetaan bad_file_log:sta 
+vain kirjautuneen käyttäjän tiedostot ja tulostetaan vain ne.
+
+Korjaus toimii koska nyt käyttäjälle ei näytetä muita kuin hänen lataamiaan hylättyjä tiesotonnimiä.
+
+Commit: <Ongelma 10 korjattu>
+
+### Pisteet(2pt)
+
+1pt vian löytämisestä
+1pt vian korjaamisesta
+0pt vikatyypin eliminoimisesta
+
+
+## Ongelma 11 
+
+Tyyppi:   poistaa kaikki tiedostot kerralla
+Sijainti: delete_file()
+Kuvaus: Hyökkääjä voi laittaa urlin perään '*' -merkin ja poistaa kaikki tiedostot käyttäjältä
+
+Esimerkki url : http://localhost:5000/user_content?file=*
+Yllä mainittu url siis poistaa kaikki tiedostot tietyltä käyttäjältä.
+Hyökkääjä voi muun muassa tehdä näin jos toteuttaa ongelmaa 8.
+
+### Esimerkkihyökkäys: 
+
+1) Käyttäjänimi on saatu selville jotenkin.
+2) Hyökkääjä voi käyttää sitä monella tapaa väärin tai hajottaa koko palvelun.
+3) Hyökkääjä on päässyt kirjautumaan jonkun tilille.
+4) Hyökkääjä syöttää url -kenttään: http://localhost:5000/user_content?file=*
+5) Tiedostot deletoituvat kaikki kyseessä olevan käyttäjän tililtä.
 
 ### Korjaus:
 
