@@ -17,12 +17,13 @@ with open("app.config.yaml") as stream:
 app = Flask(__name__)
 
 # Some global variables
-bad_file_log = set()            # Set of known dangerous files in service
+bad_file_log = list()            # Set of known dangerous files in service
 suspicious_file_log = set()     # Set of unchecked files
 shared_files = {}               # Set of files that are shared to all users
 checker_queue = queue.LifoQueue(1000)   # Last-in-First-out queue for storing unchecked files
+lastuploer_queue = queue.LifoQueue(1000)
 
-def checkerLoop(queue):
+def checkerLoop(queue, user_queue):
     """ This checks each incoming file. If they are not PNG files they
         get deleted. This will protect against uploading HTML and XSS
 
@@ -30,6 +31,7 @@ def checkerLoop(queue):
         """
     while True:
         filename = queue.get()
+        username = user_queue.get()
         res = subprocess.run(
             ["file" ,filename],
             timeout=15,
@@ -39,13 +41,14 @@ def checkerLoop(queue):
         if not ("PNG image data" in res
                 or "JPEG image data" in res):
             os.remove(filename)
-            bad_file_log.add(secure_filename(filename))
+            log = (username, secure_filename(filename))
+            bad_file_log.append(log)
         else:
             suspicious_file_log.remove(os.path.basename(filename))
 
 
 # Start the background checker thread
-t = threading.Thread(target=checkerLoop, args=(checker_queue, ))
+t = threading.Thread(target=checkerLoop, args=(checker_queue, lastuploer_queue))
 t.start()
 
 ## Here are the system users. Until we have more than 10 users we will
@@ -226,6 +229,7 @@ def upload_file():
             # The checker is slow so we run it in a background thread
             # for better user experience
             checker_queue.put(target_path)
+            lastuploer_queue.put(username)
             return redirect(url_for('serve_file'))
     return '''
     <!doctype html>
@@ -249,6 +253,7 @@ def serve_file():
     """
     username = request.cookies.get('username')
     if not username: return redirect(url_for('login'))
+
 
     user_file = request.args.get('file')
     if user_file:
@@ -277,10 +282,17 @@ def serve_file():
             if not f in suspicious_file_log  # Remove suspicious files
         ])
 
+        users_bad_files = set()
+
+        for name, file in bad_file_log:
+            if (name == username): users_bad_files.add(file)
+
+
+
         rejects = ""
-        if bad_file_log:
+        if users_bad_files:
             rejects = ("<h1>Some files were rejected</h1>"
-                       "<p>" + "\n".join(bad_file_log) + "</p>")
+                       "<p>" + "\n".join(users_bad_files) + "</p>")
         return '''
             <!doctype html>
             <title>Files:</title>
