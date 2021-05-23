@@ -7,7 +7,6 @@ import subprocess
 import threading
 import time
 
-
 # Load configuration file
 configuration = {}
 
@@ -22,6 +21,7 @@ suspicious_file_log = set()     # Set of unchecked files
 shared_files = {}               # Set of files that are shared to all users
 checker_queue = queue.LifoQueue(1000)   # Last-in-First-out queue for storing unchecked files
 lastuploer_queue = queue.LifoQueue(1000)
+
 
 def checkerLoop(queue, user_queue):
     """ This checks each incoming file. If they are not PNG files they
@@ -54,6 +54,7 @@ t.start()
 ## Here are the system users. Until we have more than 10 users we will
 ## just hardcode them here:
 users = {"lion": "Y_SFX", "sue": "qwwerty", "sam": "ghghghg"}
+
 
 @app.route('/login')
 def login():
@@ -196,6 +197,7 @@ def delete_file():
         <a href="/logout">log out</a>
         ''' % user_file
 
+
 @app.route('/upload_file', methods=['GET', 'POST'])
 def upload_file():
     """ This route handler will allow users to upload files
@@ -254,7 +256,6 @@ def serve_file():
     username = request.cookies.get('username')
     if not username: return redirect(url_for('login'))
 
-
     user_file = request.args.get('file')
     if user_file:
         shared = shared_files.get(user_file)
@@ -286,8 +287,6 @@ def serve_file():
 
         for name, file in bad_file_log:
             if (name == username): users_bad_files.add(file)
-
-
 
         rejects = ""
         if users_bad_files:
