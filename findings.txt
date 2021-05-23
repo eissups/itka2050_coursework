@@ -121,7 +121,7 @@ Aliohjelma tarkistaa users -taulukosta käyttänimet, mutta päästää läpi ka
 
 ### Korjaus:
 
-Commit: <ongelma4, polkuinjektio, korjattu>
+Commit: <ongelma4 ja 5 korjattu>
 
 Korjattu lisäämällä muuttamalla ehto muodosta 'if username:' -> 'if username in users:'. 
 Eli aikaisemmin 'if username' palautti aina truen. 
@@ -153,7 +153,7 @@ Aliohjelma tarkistaa users -taulukosta käyttänimet, mutta päästää läpi ka
 
 ### Korjaus:
 
-Commit: <ongelma5, polkuinjektio, korjattu>
+Commit: <ongelma 4 ja 5 korjattu>
 
 Ongelman 4 korjaus korjaa tämänkin ellei jäänyt jotain reikää johonkin. 
 Eli: "Korjattu lisäämällä muuttamalla ehto muodosta 'if username:' -> 'if username in users:'. 
@@ -186,7 +186,7 @@ Aliohjelma tarkistaa users -taulukosta käyttänimet, jos käyttäjä löytyy li
 
 ### Korjaus:
 
-Commit: <ongelma6, polkuinjektio, korjattu>
+Commit: <korjattu ongelma 6>
 
 Kopioidaan toisen else -lauseen return -lauseen sisältö suoraan myös toiseen/ensimmäiseen else -lauseeseen. Eli: <h1>Login failed!</h1> -> <h1>System log in</h1> jne.
 
@@ -243,6 +243,8 @@ Jos on tiedossa toisen käyttäjän pelkkä käyttäjätunnus, joka on jollain t
 5) Hyökkääjä lataa sivun uudestaan ja pääsee käsiksi toisen käyttäjän tiliin ja tiedostoihin.
 
 ### Korjaus:
+
+Commit: <korjattu ongelma 8>
 
 Korjattiin muuttamalla resp.set_cookie('username', username) tälläiseksi:
 resp.set_cookie("username", value = username, httponly = True). 
