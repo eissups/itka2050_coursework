@@ -1,7 +1,7 @@
 ## Harjoitustyöraportti
 
 Palauttajat (max 3): Elisa Autonen ja Matti Takasalo
-Pisteitä yhteensä: .
+Pisteitä yhteensä: 17
 
 ## Ongelma 1
 Tyyppi:   Polkuinjektio
@@ -133,7 +133,7 @@ Jos löytyy oikea käyttäjänimi, niin sivusto viestii, että 'login failed' el
 ### Pisteet(2pt)
 
 1pt vian löytämisestä
-1pt vian korjaamisesta
+0.5pt vian korjaamisesta (tehtävä 5 loput)
 0pt vikatyypin eliminoimisesta
 
 ## Ongelma 5 
@@ -164,7 +164,7 @@ Jos löytyy oikea käyttäjänimi, niin sivusto viestii, että 'login failed' el
 ### Pisteet(2pt)
 
 1pt vian löytämisestä
-1pt vian korjaamisesta
+0.5pt vian korjaamisesta (tehtävänä 4 loput)
 0pt vikatyypin eliminoimisesta
 
 ## Ongelma 6 
@@ -215,6 +215,12 @@ Voidaan lisätä esim. katti.jpg%00.txt, mutta onko edes ongelma kun on oikeasti
 
 ### Korjaus:
 
+### Pisteet(1pt)
+
+1pt vian löytämisestä
+0pt vian korjaamisesta
+0pt vikatyypin eliminoimisesta
+
 
 
 ## Ongelma 8 // Korjaus tehty.
@@ -264,6 +270,16 @@ Tarviiko tätä edes enempää selostaa. Ks. ongelma 8, siellä on selitetty kä
 1) Käyttäjänimi on saatu selville jotenkin.
 2) Hyökkääjä voi käyttää sitä monella tapaa väärin tai hajottaa koko palvelun.
 
+### Korjaus:
+
+Commit: <>
+
+### Pisteet(1pt)
+
+1pt vian löytämisestä
+0pt vian korjaamisesta
+0pt vikatyypin eliminoimisesta
+
 
 ## Ongelma 10 // Korjaus työnalla.
 
@@ -285,47 +301,56 @@ Hyökkääjä voi muun muassa tehdä näin jos toteuttaa ongelmaa 8.
 
 ### Korjaus:
 
-
-
-
-
-
-
-
-
 Commit: <>
 
+### Pisteet(1pt)
 
-## Ongelma 11
-Tyyppi:   Polkuinjektio
-Sijainti: checkerLoop
-Kuvaus:
+1pt vian löytämisestä
+0pt vian korjaamisesta
+0pt vikatyypin eliminoimisesta
 
-Aliohjelmassa checkerLoop ei estetä lataamasta muita kuin kuvatiedostoja.
+## Ongelma 11 // Korjaus työnalla.
+
+Tyyppi: 
+
+Sijainti: delete_file()
+Kuvaus: 
+Nähdään muiden hylättyjen tiedostojen nimet sekä niitä lisätä yrittäneen käyttäjän
+käyttäjänimi. Siinä vaiheessa käyttäjä ei ole jakanut tiedostojaan vielä muille vaan
+vasta yrittänyt ladata sitä palveluun. Jos nimi on esim. jotenkin
+arkaluontoinen?
+
+Lisäksi, vaikka tiedostojen nimet on jo tehty vaarattomiksi(ongelma 3), merkkejä muuttamalla
+mahdollisesti vaaralliseksi muuttuvien merkkijonojen tulostaminen sivulle kaikille 
+käyttäjille näkyviksi on riskialtista.
 
 ### Esimerkkihyökkäys: 
 
-1) Kirjaudu sisään jonakin käyttäjänä.
-2) Lataa tiedosto .html
-3) Suoritetaan ladatun tiedoston koodi
+1) Hyökkääjä lataa palveluun tiedoston, jonka nimenä on esimerkiksi ykköstehtävässäkin käytetty 
+   /delete_file?file=../sue/*
+2) Tiedosto hylätään
+3) Sue huomaa hylättyjen tiedostojen joukossa tiedoston, jonka polussa näytettää
+  olevan hänen käyttäjänimensä
+4) Uteliaana ja tietämättömänä Sue kopioi hylätyn tiedostonnimen, 
+   liittää sen osoitteeseen ja korvaa alaviivat /-merkeillä
+5) Suen kaikki tiedostot poistuu :(
+
+
+### Esimerkkihyökkäys 2: 
+
+1) Sam lataa palveluun vahingossa tiedoston, esim. videon, jonka on nimennyt
+   jollakin sellaisella tavalla, mitä ei haluaisi kaiken kansan nähtäville. 
+   Siitä mitä nimi on, voi käyttää omaa mielikuvitusta
+2) Tiedosto hylätään, koska se ei ole kuva
+3) Kaikki näkevät samin lataaman, mutta hylätyn tiedoston sam/"tiedosto" muodossa :(
+4) Samiä vähintäänkin hävettää
 
 ### Korjaus:
 
 Commit: <>
 
-Korjasin tämän ..
+### Pisteet(1pt)
 
-Korjaus toimii koska..
-
-Korjaus estää uuden polkuinjektion syntymisen, sillä uutta reittiä luotaessa...
-
-### Pisteet(0pt)
-
-0pt vian löytämisestä
+1pt vian löytämisestä
 0pt vian korjaamisesta
 0pt vikatyypin eliminoimisesta
-
-
-7, 9, 10, 
-
-13 + 3
